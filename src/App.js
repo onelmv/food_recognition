@@ -1,26 +1,27 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { Component } from 'react';
 import './App.css';
+import Nav from './components/Nav/Nav';
+import Logo from './components/Logo/Logo';
+import LinkForm from './components/LinkForm/LinkForm';
+import ImageRecognition from './components/ImageRecognition/ImageRecognition';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+class App extends Component {
+  
+  
+  
+  render=()=>{
+    return (
+      <div className="App">
+        <p>Its working....</p>
+         <Nav />
+        {/*<Logo />
+        <LinkForm />
+        <ImageRecognition /> */}
+      </div>
+    );
+  }
+  
 }
 
 export default App;
