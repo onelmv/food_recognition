@@ -13,11 +13,10 @@ class App extends Component {
   render=()=>{
     return (
       <div className="App">
-        <p>Its working....</p>
          <Nav />
-        {/*<Logo />
+        <Logo />
         <LinkForm />
-        <ImageRecognition /> */}
+        {/*<ImageRecognition /> */}
       </div>
     );
   }
