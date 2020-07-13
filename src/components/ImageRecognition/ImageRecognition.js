@@ -1,8 +1,10 @@
 import React from 'react';
 
-const ImageRecognition =()=>{
+const ImageRecognition =({url})=>{
     return (
-        <div>image</div>
+        <div className='center w-50 ma3' >
+            <img src={url} alt=""/>
+        </div>
     )
 }
 

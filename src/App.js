@@ -5,8 +5,13 @@ import Logo from './components/Logo/Logo';
 import LinkForm from './components/LinkForm/LinkForm';
 import ImageRecognition from './components/ImageRecognition/ImageRecognition';
 import Rank from './components/Rank/Rank';
-import Particles from 'react-particles-js';
 
+import Particles from 'react-particles-js';
+import Clarifai from 'clarifai';
+
+const app = new Clarifai.App({
+ apiKey: '42250900794740c5bd44616be0729d08'
+});
 
 const params={
   polygon: {
@@ -23,18 +28,38 @@ class App extends Component {
   constructor(){
     super();
     this.state={
-      input:''
+      input:'',
+      url:''
     }
 
   }
 
   onInputChange =(event)=>{
-    console.log(event.target.value)
+    
+    this.setState({input:event.target.value});
+    
+    console.log('input',this.state.input)
   }
 
-  onButtonClick =()=>{}
+  onButtonClick =()=>{
 
-  /* api_key = 42250900794740c5bd44616be0729d08; */
+      this.setState({url:  this.state.input})
+
+      console.log('url',this.state.url)
+
+      app.models.predict(Clarifai.FOOD_MODEL, "https://samples.clarifai.com/food.jpg").then(
+        function(response) {
+          console.log('API its working',response)/* .outputs[0].data.concepts[0].name) */
+          /* const ingredientList = response.outputs[0].data.map(item=>{item.name})
+          return ingredientList; */
+
+        },
+        function(err) {
+          // there was an error
+        }
+      );
+  }
+
   
   render=()=>{
     return (
@@ -44,7 +69,7 @@ class App extends Component {
         <Logo />
         <Rank />
         <LinkForm onInputChange={this.onInputChange} onButtonClick={this.onButtonClick}/>
-        {/*<ImageRecognition /> */}
+        <ImageRecognition url={this.state.url}/>
       </div>
     );
   }
