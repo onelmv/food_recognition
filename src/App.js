@@ -29,7 +29,8 @@ class App extends Component {
     super();
     this.state={
       input:'',
-      url:''
+      url:'',
+      ingredients: {}
     }
 
   }
@@ -44,20 +45,15 @@ class App extends Component {
   onButtonClick =()=>{
 
       this.setState({url:  this.state.input})
-
-      console.log('url',this.state.url)
-
-      app.models.predict(Clarifai.FOOD_MODEL, "https://samples.clarifai.com/food.jpg").then(
-        function(response) {
-          console.log('API its working',response)/* .outputs[0].data.concepts[0].name) */
-          /* const ingredientList = response.outputs[0].data.map(item=>{item.name})
-          return ingredientList; */
-
-        },
-        function(err) {
-          // there was an error
-        }
-      );
+    
+      app.models
+          .predict(Clarifai.FOOD_MODEL, this.state.input)/* you can use this.state.url because that state change in this function and is not ready for use it */
+          .then((response)=> {
+              console.log('API its working',response)
+              this.setState({ingredients:response.outputs[0].data.concepts.map(item=>item)})
+              console.log(response.outputs[0].data.concepts[0].name,this.state.ingredients)
+          })
+          .catch(err => console.log(err));
   }
 
   
@@ -69,7 +65,7 @@ class App extends Component {
         <Logo />
         <Rank />
         <LinkForm onInputChange={this.onInputChange} onButtonClick={this.onButtonClick}/>
-        <ImageRecognition url={this.state.url}/>
+        <ImageRecognition url={this.state.url} ingredients={this.state.ingredients}/>
       </div>
     );
   }
