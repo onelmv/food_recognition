@@ -5,6 +5,7 @@ import Logo from './components/Logo/Logo';
 import LinkForm from './components/LinkForm/LinkForm';
 import ImageRecognition from './components/ImageRecognition/ImageRecognition';
 import Rank from './components/Rank/Rank';
+import Signin from './components/Signin/Signin';
 
 import Particles from 'react-particles-js';
 import Clarifai from 'clarifai';
@@ -30,7 +31,8 @@ class App extends Component {
     this.state={
       input:'',
       url:'',
-      ingredients: {}
+      ingredients: {},
+      route: 'signin'
     }
 
   }
@@ -56,16 +58,25 @@ class App extends Component {
           .catch(err => console.log(err));
   }
 
+  onRouteChange=(route)=>{
+    this.setState({route: route})      
+  }
   
   render=()=>{
     return (
       <div className="App">
         <Particles className='particles' p={params}/>
-        <Nav />
+        <Nav onRouteChange={this.onRouteChange} />
         <Logo />
-        <Rank />
-        <LinkForm onInputChange={this.onInputChange} onButtonClick={this.onButtonClick}/>
-        <ImageRecognition url={this.state.url} ingredients={this.state.ingredients}/>
+        {(this.state.route==='signin')
+          ?<Signin onRouteChange={this.onRouteChange}/>
+          :(<div>
+            
+            <Rank state={this.state.route}/>
+            <LinkForm onInputChange={this.onInputChange} onButtonClick={this.onButtonClick}/>
+            <ImageRecognition url={this.state.url} ingredients={this.state.ingredients}/>
+          </div>)     
+        }
       </div>
     );
   }
