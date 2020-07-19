@@ -54,9 +54,11 @@ const ImageRecognition =({url, ingredients})=>{
      
 
     return (
-        <div className='center w-70 ma3' >
+        <div className='center w-70 ma3 flex-wrap items-center flex-row justify ' >
             <img src={url} alt=""/>
+            
             {generateTable()}
+            
         </div>
     )
 }

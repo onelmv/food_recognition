@@ -6,6 +6,7 @@ import LinkForm from './components/LinkForm/LinkForm';
 import ImageRecognition from './components/ImageRecognition/ImageRecognition';
 import Rank from './components/Rank/Rank';
 import Signin from './components/Signin/Signin';
+import Register from './components/Register/Register';
 
 import Particles from 'react-particles-js';
 import Clarifai from 'clarifai';
@@ -32,7 +33,9 @@ class App extends Component {
       input:'',
       url:'',
       ingredients: {},
-      route: 'signin'
+      route: 'signin',
+      isSignedIn: false
+      
     }
 
   }
@@ -59,6 +62,12 @@ class App extends Component {
   }
 
   onRouteChange=(route)=>{
+    /* 3 route states : {signin|register|home} */
+    if(route==='home'){
+      this.setState({isSignedIn: true})
+    }else{
+      this.setState({isSignedIn: false})
+    }
     this.setState({route: route})      
   }
   
@@ -66,16 +75,21 @@ class App extends Component {
     return (
       <div className="App">
         <Particles className='particles' p={params}/>
-        <Nav onRouteChange={this.onRouteChange} />
+        <Nav  onRouteChange={this.onRouteChange} isSignedIn={this.state.isSignedIn}/>
         <Logo />
-        {(this.state.route==='signin')
-          ?<Signin onRouteChange={this.onRouteChange}/>
-          :(<div>
-            
+        {(this.state.route==='home')
+          ?(<div>
+              
             <Rank state={this.state.route}/>
             <LinkForm onInputChange={this.onInputChange} onButtonClick={this.onButtonClick}/>
             <ImageRecognition url={this.state.url} ingredients={this.state.ingredients}/>
-          </div>)     
+          </div>)
+          :(
+            this.state.route==='signin' 
+                ?<Signin onRouteChange={this.onRouteChange}/>
+                : <Register onRouteChange={this.onRouteChange}/> 
+          
+            )  
         }
       </div>
     );
